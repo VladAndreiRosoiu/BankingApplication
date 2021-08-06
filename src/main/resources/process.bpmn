@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+  <bpmn:process id="BankingApplication-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="do_search" />
+    <bpmn:endEvent id="EndEvent_0x6ir2l">
+      <bpmn:incoming>Flow_0gku66w</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="do_search" targetRef="Activity_1njaec1" />
+    <bpmn:userTask id="do_search" name="Search Form" camunda:formKey="embedded:app:forms/search.html" camunda:candidateUsers="admin">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:incoming>Flow_0f227kc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1a9kcql" name="doSearch" camunda:delegateExpression="#{doSearch}">
+      <bpmn:incoming>Flow_1dxbyag</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ql7z8c</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0dy3ozj" name="inputOk?">
+      <bpmn:incoming>Flow_1lgd5yq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dxbyag</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0f227kc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1dxbyag" sourceRef="Gateway_0dy3ozj" targetRef="Activity_1a9kcql">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{inputOk}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ql7z8c" sourceRef="Activity_1a9kcql" targetRef="Activity_01dhgxr" />
+    <bpmn:sequenceFlow id="Flow_0gku66w" sourceRef="Activity_01dhgxr" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:userTask id="Activity_01dhgxr" name="Results Form" camunda:formKey="embedded:app:forms/search.html">
+      <bpmn:incoming>Flow_0ql7z8c</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gku66w</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0f227kc" sourceRef="Gateway_0dy3ozj" targetRef="do_search">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{!inputOk}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1lgd5yq" sourceRef="Activity_1njaec1" targetRef="Gateway_0dy3ozj" />
+    <bpmn:serviceTask id="Activity_1njaec1" name="checkInput" camunda:delegateExpression="#{checkInput}">
+      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lgd5yq</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="BankingApplication-process">
+      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="470" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dxbyag_di" bpmnElement="Flow_1dxbyag">
+        <di:waypoint x="695" y="117" />
+        <di:waypoint x="770" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ql7z8c_di" bpmnElement="Flow_0ql7z8c">
+        <di:waypoint x="870" y="117" />
+        <di:waypoint x="980" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f227kc_di" bpmnElement="Flow_0f227kc">
+        <di:waypoint x="670" y="142" />
+        <di:waypoint x="670" y="190" />
+        <di:waypoint x="320" y="190" />
+        <di:waypoint x="320" y="157" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gku66w_di" bpmnElement="Flow_0gku66w">
+        <di:waypoint x="1080" y="117" />
+        <di:waypoint x="1192" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lgd5yq_di" bpmnElement="Flow_1lgd5yq">
+        <di:waypoint x="570" y="117" />
+        <di:waypoint x="645" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_08mft2c_di" bpmnElement="do_search">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="1192" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hurja5_di" bpmnElement="Activity_1a9kcql">
+        <dc:Bounds x="770" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06hruc7_di" bpmnElement="Activity_1njaec1">
+        <dc:Bounds x="470" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08rxnly_di" bpmnElement="Activity_01dhgxr">
+        <dc:Bounds x="980" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0dy3ozj_di" bpmnElement="Gateway_0dy3ozj" isMarkerVisible="true">
+        <dc:Bounds x="645" y="92" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="648" y="62" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
